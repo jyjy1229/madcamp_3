@@ -7,6 +7,8 @@ public class NetworkController : MonoBehaviourPunCallbacks
 {
     public Text StatusText = null;
     public GameObject StartButton = null;
+    public GameObject MainCanvas = null;
+    public GameObject LobbyCanvas = null;
     public byte MaxPlayers = 4;
 
     private void Start()
@@ -22,10 +24,16 @@ public class NetworkController : MonoBehaviourPunCallbacks
 
         PhotonNetwork.AutomaticallySyncScene = true; // All players same scene
         StartButton.SetActive(true);
-        Status("Connected to " + PhotonNetwork.ServerAddress);
+        Status("Click Start Button !");
     }
 
-    public void Startbutton_Click()
+    public void StartButton_Click()
+    {
+        MainCanvas.SetActive(false);
+        LobbyCanvas.SetActive(true);
+    }
+
+    public void JoinButton_Click()
     {
         string roomName = "Room1";
         Photon.Realtime.RoomOptions opts = new Photon.Realtime.RoomOptions();
