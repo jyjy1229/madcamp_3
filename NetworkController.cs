@@ -9,13 +9,15 @@ public class NetworkController : MonoBehaviourPunCallbacks
     public GameObject StartButton = null;
     public GameObject MainCanvas = null;
     public GameObject LobbyCanvas = null;
+    public InputField CreateRoomInput = null;
+    public InputField JoinRoomInput = null;
     public byte MaxPlayers = 4;
 
     private void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
         StartButton.SetActive(false);
-        Status("Connecting to server");
+        Status("Loading ...");
     }
 
     public override void OnConnectedToMaster()
@@ -24,7 +26,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
 
         PhotonNetwork.AutomaticallySyncScene = true; // All players same scene
         StartButton.SetActive(true);
-        Status("Click Start Button !");
+        Status("Let's Start !!");
     }
 
     public void StartButton_Click()
@@ -33,17 +35,26 @@ public class NetworkController : MonoBehaviourPunCallbacks
         LobbyCanvas.SetActive(true);
     }
 
-    public void JoinButton_Click()
+    public void CreateButton_Click()
     {
-        string roomName = "Room1";
         Photon.Realtime.RoomOptions opts = new Photon.Realtime.RoomOptions();
         opts.IsOpen = true;
         opts.IsVisible = true;
         opts.MaxPlayers = MaxPlayers;
 
-        PhotonNetwork.JoinOrCreateRoom(roomName, opts, Photon.Realtime.TypedLobby.Default);
-        StartButton.SetActive(false);
-        Status("Joining " + roomName);
+        PhotonNetwork.JoinOrCreateRoom(CreateRoomInput.text, opts, Photon.Realtime.TypedLobby.Default);
+        LobbyCanvas.SetActive(false);
+    }
+
+    public void JoinButton_Click()
+    {
+        Photon.Realtime.RoomOptions opts = new Photon.Realtime.RoomOptions();
+        opts.IsOpen = true;
+        opts.IsVisible = true;
+        opts.MaxPlayers = MaxPlayers;
+
+        PhotonNetwork.JoinOrCreateRoom(JoinRoomInput.text, opts, Photon.Realtime.TypedLobby.Default);
+        LobbyCanvas.SetActive(false);
     }
 
     public override void OnJoinedRoom()
