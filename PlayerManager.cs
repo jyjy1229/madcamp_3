@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviourPunCallbacks
 {
     PhotonView PV;
 
     GameObject controller;
+
+    int HitCount = 0;
+    int DeathCount = -1;
 
     void Awake()
     {
@@ -24,8 +27,24 @@ public class PlayerManager : MonoBehaviour
 
     void CreateController()
     {
+        DeathCount++;
         Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();
         controller = PhotonNetwork.Instantiate("Player", spawnPoint.position, spawnPoint.rotation, 0, new object[] { PV.ViewID });
+    }
+
+    public int GetDeathCount()
+    {
+        return DeathCount;
+    }
+
+    public int GetHitCount()
+    {
+        return HitCount;
+    }
+
+    public void AddHitCount()
+    {
+        HitCount++;
     }
 
     public void Die()
