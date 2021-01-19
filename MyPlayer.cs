@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
@@ -8,7 +8,7 @@ public class MyPlayer : MonoBehaviourPun, IDamageable
     private TextMesh PlayerName = null;
 
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
-    [SerializeField] public Slider hpBar;
+    [SerializeField]public Slider hpBar;
 
     float verticalLookRotation;
     bool grounded;
@@ -31,6 +31,7 @@ public class MyPlayer : MonoBehaviourPun, IDamageable
     {
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
+        hpBar = GetComponent<Slider>();
 
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
     }
@@ -48,7 +49,7 @@ public class MyPlayer : MonoBehaviourPun, IDamageable
     private void Update()
     {
         if (!PV.IsMine) return;
-        hpBar.value = currentHealth;
+        //hpBar.value = currentHealth;
 
         Look();
         Move();
